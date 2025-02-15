@@ -1,59 +1,65 @@
-# Steel-Industry-Electricity-Usage-Prediction-and-Optimization
+# Steel Industry Electricity Usage Prediction and Optimization
 
-## **Project Overview: Electricity Usage Prediction in Steel Industry**
+## 🔹Project Overview  
+This project aims to **predict electricity consumption** in the steel industry using machine learning models. By analyzing key factors influencing power usage, we strive to **enhance energy efficiency, reduce costs, and lower CO₂ emissions**.  
 
-### **1. Importing Libraries for EDA, Statistical Analysis, and Modeling**
+--------
 
-### **2. Data Preprocessing**
+## 1. Data Exploration & Preprocessing  
 
-- Loaded dataset, performed exploratory data analysis (EDA), and handled missing values.
+### Target Variable: Electricity Usage  
+- Electricity consumption typically ranges from **3 to 55 kWh**, with **spikes during heavy-load operations**.  
+- The factory primarily consumes electricity for **light-load tasks**, but demand increases significantly for **heavy-load work**.  
 
-### **3. Exploratory Data Analysis (EDA) & Feature Selection**
+### Feature Analysis & Selection  
 
-### **Target Variable (Electricity Usage)**
+#### Categorical Features (3)  
+- **Workload Type & Electricity Usage:**  
+  - Light-load tasks dominate.  
+  - Medium/heavy tasks occur mostly on weekdays for operational stability.  
+- **Distribution Analysis:**  
+  - **QQ plot confirms non-normal distribution**, increasing sensitivity to outliers.  
+- **Statistical Validation:**  
+  - **Box-Cox & log transformation results (p-value < 0.05) indicate variance-based normalization is ineffective.**  
+  - **Kruskal-Wallis test confirms all categorical features are statistically significant (p-value = 0).**  
 
-- Electricity usage mostly ranged from **3 to 55 kWh**, with some significant outliers.
-- Factory primarily consumes electricity for **light-load tasks**, but demand spikes for **heavy-load operations**.
+#### Numerical Features (6)  
+- **Feature Scaling:**  
+  - **Violin plots** reveal different scales → **MinMax Scaling applied**.  
+- **Feature Correlation & Reduction:**  
+  - **Correlation heatmap** detects **highly correlated features (~0.9)** → Removing redundant variables.  
+  - **Variance Inflation Factor (VIF) analysis** confirms feature selection choices.  
 
-### **Categorical Features (3)**
+--------
 
-- Electricity usage patterns align with workload types: **light-load tasks dominate**, while **heavy/medium tasks occur mainly on weekdays** for operational continuity.
-- **QQ plot confirms target variable is not normally distributed**, making it sensitive to outliers and potentially distorting model predictions.
-- **Box-Cox & log transformation results (p-value < 0.05) confirm variance analysis is not valid** for target normalization → X Anova test
-- **Kruskal-Wallis test confirms all categorical features are statistically significant (p-value = 0).**
+## 2. Feature Transformation  
+- **MinMax Scaling** applied to numerical features.  
+- **One-hot encoding** applied to categorical features.  
 
-### **Numerical Features (6)**
+--------
 
-- **Violin plots reveal varying scales among numerical features**, necessitating **MinMax Scaling**.
-- **Correlation heatmap identifies highly correlated features (~0.9), leading to feature reduction** (e.g., dropping `Lagging_Current_Power_Factor`).
-- **VIF analysis confirms redundant features, supporting feature selection process**.
+## 3. Model Development & Performance Evaluation  
 
-### **4. Feature Transformation**
+### 🔹Machine Learning Models (Random Forest & XGBoost)  
+- **Hyperparameter tuning** performed using **Optuna BayesSearchCV**.  
+- **Model Performance (Root Mean Squared Error - RMSE):**  
+  - ✅ **Random Forest RMSE: 3.19**  
+  - ✅ **XGBoost RMSE: 3.15**  
+- **Best Model:** **XGBoost**, which outperformed Random Forest with the lowest RMSE.  
 
-- **MinMax Scaling** applied to numerical features.
-- **One-hot encoding** applied to categorical features.
+### Feature Importance Analysis  
+**Key drivers of electricity usage:**  
+1️⃣ **CO₂ Emissions** → Higher emissions result from increased electricity usage, mainly due to **coal, natural gas, and coke combustion**.  
+2️⃣ **Lagging_Current_Reactive_Power_kVarh** → Represents **extra energy needed to sustain electromagnetic fields** in steel plant machinery.  
+3️⃣ **Load_Type_Light_Load** → Indicates that **most energy is consumed during light-load operations**.  
 
-### **5. Machine Learning Modeling (Random Forest & XGBoost)**
+### Linear Regression Benchmark  
+- After **scaling numerical features** and **encoding categorical variables**, a **linear regression model** was tested.  
+- **Linear regression underperformed** compared to ensemble models (**RMSE: 3.85**), confirming that non-linear models are more effective for this problem.  
 
-- **Hyperparameter tuning using Optuna BayesSearchCV**.
-- **Model Performance (RMSE values):**
-    - **Random Forest RMSE: 3.19**
-    - **XGBoost RMSE: 3.15**
-- **XGBoost outperformed Random Forest**, achieving the lowest RMSE.
+--------
 
-### **6. Feature Importance Analysis**
-
-- Key drivers of electricity usage:
-    - `CO2`(resulting from coal, natural gas, and coke combustion).
-    - `Lagging_Current_Reactive_Power_kVarh` (extra energy required to sustain electromagnetic fields in steel plant equipment)
-    - `Load_Type_Light_Load`(indicating dominant usage patterns of light load work).
-
-### **7. Linear Regression Performance Check**
-
-- After **scaling numerical features and encoding categorical variables**, a **linear regression model was tested**.
-- **Linear regression underperformed** compared to Random Forest and XGBoost, with **higher RMSE (3.85) values**.
-
-### **Conclusion**
-
-- **XGBoost demonstrated the best predictive performance**, making it the optimal model for forecasting electricity consumption.
-- Insights gained from **feature importance** can help optimize energy usage and CO₂ emissions in industrial operations.
+## 4. Conclusion & Business Impact  
+✅ **XGBoost provided the best predictive accuracy**, making it the most reliable model for forecasting electricity usage.  
+✅ **Feature importance insights** can guide **energy optimization strategies** and **CO₂ reduction efforts** in the steel industry.  
+✅ Findings can help steel plants **implement data-driven energy management**, reducing **costs** and **enhancing sustainability**.  
